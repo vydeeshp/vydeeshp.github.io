@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>P. Vydeesh | About Me</title>
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet"
+  href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  crossorigin="" />
+
+<style>
+
+/* Global Theme Variables */
+:root {
+  --card-bg: rgba(255,255,255,0.25);
+  --card-bg-dark: rgba(0,0,0,0.35);
+  --text-dark: #fff;
+  --text-light: #222;
+  --radius: 18px;
+}
+
+/* -------------------- Global Styling -------------------- */
+
+body {
+  background: linear-gradient(135deg, #ff416c 0%, #002661 100%);
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  color: var(--text-light);
+  transition: 0.5s ease;
+  overflow-x: hidden;
+}
+
+.dark {
+  background: #111;
+  color: var(--text-dark);
+}
+
+/* Toggle Button */
+#darkModeBtn {
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  padding: 10px 14px;
+  border: none;
+  background: #00ffc8;
+  color: black;
+  border-radius: 10px;
+  cursor: pointer;
+  z-index: 100;
+  font-weight: bold;
+}
+
+/* -------------------- Page Wrapper -------------------- */
+
+.page-wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 32px 16px 80px;
+}
+
+/* -------------------- Profile Card -------------------- */
+
+.card {
+  width: 90%;
+  max-width: 500px;
+  margin: 0 auto 40px;
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2),
+              0 0 0 2px rgba(255,255,255,0.15);
+  padding: 30px;
+  backdrop-filter: blur(12px);
+  text-align: center;
+  transition: 0.4s ease;
+}
+
+.dark .card {
+  background: var(--card-bg-dark);
+  box-shadow: 0 8px 25px rgba(255,255,255,0.05),
+              0 0 0 2px rgba(0,255,255,0.2);
+}
+
+/* Avatar */
+.avatar {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  font-size: 2.5em;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 12px;
+  box-shadow: 0 0 15px rgba(0,255,255,0.4);
+}
+
+/* Sections inside card */
+
+.card section {
+  margin-top: 18px;
+  text-align: left;
+}
+
+.card label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #00e5ff;
+}
+
+.card ul {
+  margin: 0;
+  padding-left: 18px;
+}
+
+/* -------------------- Container Blocks -------------------- */
+
+.container {
+  width: 80%;
+  margin: 40px auto;
+  background: rgba(255,255,255,0.12);
+  padding: 25px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 25px rgba(255,255,255,0.12);
+  transition: 0.6s ease, transform 0.6s ease;
+  opacity: 0;
+  transform: translateY(60px);
+}
+
+.dark .container {
+  background: rgba(0,0,0,0.25);
+}
+
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.weather-box, #map {
+  margin-top: 18px;
+  padding: 20px;
+  border-radius: 15px;
+  background: rgba(255,255,255,0.2);
+}
+
+.dark .weather-box, .dark #map {
+  background: rgba(0,0,0,0.35);
+}
+
+input {
+  padding: 12px;
+  width: 60%;
+  border-radius: 10px;
+  outline: none;
+  border: none;
+}
+
+button {
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: #ff3c3c;
+  color: white;
+  margin-left: 10px;
+}
+
+button:hover {
+  background: #ff6b6b;
+}
+
+/* Map */
+#map { height: 350px; }
+
+</style>
+</head>
+<body>
+
+<!-- 🌙 Dark Mode Toggle -->
+<button id="darkModeBtn">💡 Toggle Mode</button>
+
+<div class="page-wrapper">
+
+<!-- Profile Card -->
+<div class="card">
+  <div class="avatar">😎</div>
+  <h2>P. Vydeesh</h2>
+  <div class="subtitle">ME25B144</div>
+
+  <section>
+    <label>About Me</label>
+    <div>I'm Vydeesh (ME25B144)... love discovering things.</div>
+  </section>
+
+  <section>
+    <label>Stuff I Like To Do</label>
+    <ul>
+      <li>Badminton</li>
+      <li>Sports</li>
+      <li>Learning tech stuff</li>
+      <li>Exploring fun things online</li>
+      <li>Trying new skills</li>
+    </ul>
+  </section>
+
+  <section>
+    <label>Aspirations</label>
+    <ul>
+      <li>Travel</li>
+      <li>Blockchain</li>
+      <li>Innovative tech projects</li>
+      <li>Badminton 🏸</li>
+    </ul>
+  </section>
+
+  <section class="contact">
+    <div><b>Email:</b> me25b144@smail.iitm.ac.in</div>
+  </section>
+</div>
+
+<!-- Weather -->
+<div class="container">
+  <h2>Weather Info</h2>
+  <div class="weather-box">
+    <input id="city" placeholder="Enter city name">
+    <button onclick="getWeather()">Get Weather</button>
+    <p id="weather-result"></p>
+  </div>
+</div>
+
+<!-- Map -->
+<div class="container">
+  <h2>My Location</h2>
+  <div id="map"></div>
+</div>
+
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+
+const API_KEY = "86aa8d57f85e4aca8a1163422250312";
+
+async function getWeather(location=null){
+  const city = location || document.getElementById("city").value;
+  if (!city) return alert("Enter a city name!");
+
+  const url=`https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=${city}`;
+  const res= await fetch(url);
+  const data= await res.json();
+
+  document.getElementById("weather-result").innerHTML =
+    `🌡 ${data.current.temp_c}°C | ${data.current.condition.text}`;
+}
+
+// Auto location weather
+if(navigator.geolocation){
+  navigator.geolocation.getCurrentPosition(pos=>{
+    getWeather(`${pos.coords.latitude},${pos.coords.longitude}`);
+  });
+}
+
+// Map
+const map = L.map('map').setView([12.9716, 77.5946], 12);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+L.marker([12.9716,77.5946]).addTo(map).bindPopup("My Location");
+
+// Scroll Animation
+const sections=document.querySelectorAll(".container");
+window.addEventListener("scroll",()=>{
+  sections.forEach(sec=>{
+    const pos=sec.getBoundingClientRect();
+    pos.top < window.innerHeight - 100
+      ? sec.classList.add("visible")
+      : sec.classList.remove("visible");
+  });
+});
+
+// Dark Mode
+document.getElementById("darkModeBtn").onclick=()=>{
+  document.body.classList.toggle("dark");
+};
+
+</script>
+
+</body>
+</html>
