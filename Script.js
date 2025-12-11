@@ -1,4 +1,4 @@
-const API_URL = "https://portfolio-api.onrender.com";
+const API_URL = "https://portfolio-api-okqr.onrender.com";
 const WEATHER_API_KEY = "86aa8d57f85e4aca8a1163422250312";
 
 async function loadProfile() {
@@ -65,3 +65,4 @@ window.addEventListener("scroll",()=>{
 document.getElementById("darkModeBtn").onclick=()=>{
   document.body.classList.toggle("dark");
 };
+
