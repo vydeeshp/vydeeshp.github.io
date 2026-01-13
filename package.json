@@ -11,7 +11,7 @@
     "predeploy": "npm run build",
      "deploy": "gh-pages -d build"
   },
-  "homepage": "https://vydeeshp.github.io/About-me",
+  "homepage": "https://vydeeshp.github.io",
 
   "dependencies": {
     "@radix-ui/react-switch": "^1.2.6",
